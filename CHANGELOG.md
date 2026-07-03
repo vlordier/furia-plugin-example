@@ -6,7 +6,6 @@ Initial release — complete FuriaBuilder plugin example.
 
 ### Added
 - SimulationProvider implementation (SimpleDrone)
-- FuriaBuilder registration pattern
-- InboundAdapter/OutboundAdapter trait implementations
+- FuriaBuilder registration pattern (demonstrated in code)
 - Integration guide for furia-control
 - MIT license

@@ -5,12 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: Swatinem/rust-cache@v2
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
           components: clippy
       - run: cargo check
       - run: cargo clippy -- -D warnings
+      - run: cargo fmt --check
       - run: cargo test
       - name: cargo-deny
         uses: EmbarkStudios/cargo-deny-action@v2

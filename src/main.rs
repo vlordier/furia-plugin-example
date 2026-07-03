@@ -5,6 +5,7 @@
 
 use std::time::Duration;
 
+use furia_platform::FuriaBuilder;
 use furia_sdk::module_handle::{ModuleHandle, ModuleHealth};
 use furia_sdk::simulation::{EntityState, Scenario, SimEvent, SimulationProvider};
 
@@ -85,24 +86,22 @@ impl SimulationProvider for SimpleDrone {
 }
 
 fn main() {
-    let sim = SimpleDrone::default();
-    let state = sim.entity_state("drone-001").unwrap();
-    println!(
-        "SimpleDrone ready at ({:.4}, {:.4}) — fuel: {:.0}%",
-        state.position.0, state.position.1, sim.fuel_pct
-    );
-    println!();
-    println!("--- How to register with the platform ---");
-    println!("FuriaBuilder::new()");
-    println!("  .with_provider(\"simulation\", \"simple-drone\", Box::new(SimpleDrone::default()))");
-    println!("  .with_builtins()");
-    println!("  .build()");
-    println!("  .run();");
+    let platform = FuriaBuilder::new()
+        .with_provider("simulation", "simple-drone", Box::new(SimpleDrone::default()))
+        .without_builtins()
+        .build();
+
+    println!("Furia platform built with {} providers", platform.provider_list().len());
+    for (kind, name) in platform.provider_list() {
+        println!("  Provider: {}/{}", kind, name);
+    }
+    platform.run();
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use uuid::Uuid;
 
     #[test]
     fn test_init_sets_entity_id() {
@@ -115,17 +114,24 @@ mod tests {
             environment: serde_json::json!({"entity_id": "my-drone"}),
         };
         let mut sim = SimpleDrone::default();
-        sim.init(&scenario, &ModuleHandle::null());
+        sim.init(&scenario, &ModuleHandle::new_test(Uuid::new_v4()));
         assert_eq!(sim.entity_id, "my-drone");
     }
 
     #[test]
     fn test_tick_burns_fuel() {
         let mut sim = SimpleDrone::default();
-        sim.init(&Scenario {
-            environment: serde_json::Value::Null,
-            ..Default::default()
-        }, &ModuleHandle::null());
+        sim.init(
+            &Scenario {
+                id: String::new(),
+                name: String::new(),
+                duration_secs: 0,
+                order_of_battle: serde_json::Value::Null,
+                timeline: vec![],
+                environment: serde_json::Value::Null,
+            },
+            &ModuleHandle::new_test(Uuid::new_v4()),
+        );
         sim.tick(Duration::from_secs(3600));
         assert!(sim.fuel_pct < 100.0);
         assert!(sim.fuel_pct >= 0.0);

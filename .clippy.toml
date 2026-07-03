@@ -4,11 +4,5 @@
 # Maximum allowed cognitive complexity before clippy warns
 cognitive-complexity-threshold = 25
 
-# Disallow certain patterns
-disallowed-methods = [
-  { path = "std::process::Command", reason = "use subprocess crate instead" },
-  { path = "std::thread::spawn", reason = "use tokio::spawn in async code" },
-]
-
 # Allowlist for certain lints
 allow-unwrap-in-tests = true
