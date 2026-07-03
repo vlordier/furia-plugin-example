@@ -50,7 +50,7 @@ impl SimulationProvider for SimpleDrone {
             self.entity_id = id.to_string();
         }
         self.module_id = Some(handle.module_id);
-        eprintln!("[SimpleDrone] Simulation provider initialized (module_id={})", handle.module_id);
+        tracing::info!("[SimpleDrone] Simulation provider initialized (module_id={})", handle.module_id);
     }
 
     fn tick(&mut self, dt: Duration) -> Vec<SimEvent> {

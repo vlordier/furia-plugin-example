@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-Please report security vulnerabilities to the maintainer via email.
+Please report security vulnerabilities to vincent@lordier.com.

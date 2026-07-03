@@ -1,11 +1,16 @@
 use furia_platform::FuriaBuilder;
+use furia_plugin_example::SimpleDrone;
 
 #[test]
-fn test_plugin_registers_and_health_reports() {
+fn test_plugin_registers_provider() {
     let platform = FuriaBuilder::new()
+        .with_provider("simulation", "simple-drone", Box::new(SimpleDrone::default()))
         .without_builtins()
         .build();
-    // Basic smoke test — platform builds without panicking
-    // In a full integration test, we'd add a provider and check health
-    assert!(platform.provider_list().is_empty());
+
+    let providers = platform.provider_list();
+    let has_simulation = providers.iter().any(|(kind, name)| {
+        kind == "simulation" && name == "simple-drone"
+    });
+    assert!(has_simulation, "Expected simulation:simple-drone to be registered");
 }

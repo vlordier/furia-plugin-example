@@ -246,6 +246,7 @@ dependencies = [
  "furia-sdk",
  "serde",
  "serde_json",
+ "tracing",
  "uuid",
 ]
 

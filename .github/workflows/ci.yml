@@ -14,7 +14,11 @@ jobs:
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo fmt --check
       - run: cargo test
-      - name: cargo-deny
+      - name: cargo-deny (advisories)
         uses: EmbarkStudios/cargo-deny-action@v2
         with:
           command: check advisories
+      - name: cargo-deny (licenses, bans)
+        uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check licenses bans
