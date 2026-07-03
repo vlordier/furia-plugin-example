@@ -62,7 +62,7 @@ impl SimulationProvider for SimpleDrone {
 
     fn tick(&mut self, dt: Duration) -> Vec<SimEvent> {
         let dt_hours = dt.as_secs_f64() / 3600.0;
-        dt.as_millis() as u64;
+        let dt_ms = dt.as_millis() as u64;
         self.sim_time_ms += dt_ms;
 
         // Move along heading (simplified great-circle approximation)
