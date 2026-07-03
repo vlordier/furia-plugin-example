@@ -242,7 +242,6 @@ dependencies = [
 name = "furia-plugin-example"
 version = "0.1.0"
 dependencies = [
- "chrono",
  "furia-platform",
  "furia-sdk",
  "serde",
