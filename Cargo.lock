@@ -244,8 +244,6 @@ version = "0.1.0"
 dependencies = [
  "furia-platform",
  "furia-sdk",
- "serde",
- "serde_json",
  "tracing",
  "uuid",
 ]

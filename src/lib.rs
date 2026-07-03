@@ -46,16 +46,24 @@ impl Default for SimpleDrone {
 impl SimulationProvider for SimpleDrone {
     fn init(&mut self, scenario: &Scenario, handle: &ModuleHandle) {
         // Read entity_id from scenario environment
-        if let Some(id) = scenario.environment.get("entity_id").and_then(|v| v.as_str()) {
+        if let Some(id) = scenario
+            .environment
+            .get("entity_id")
+            .and_then(|v| v.as_str())
+        {
             self.entity_id = id.to_string();
         }
         self.module_id = Some(handle.module_id);
-        tracing::info!("[SimpleDrone] Simulation provider initialized (module_id={})", handle.module_id);
+        tracing::info!(
+            "[SimpleDrone] Simulation provider initialized (module_id={})",
+            handle.module_id
+        );
     }
 
     fn tick(&mut self, dt: Duration) -> Vec<SimEvent> {
         let dt_hours = dt.as_secs_f64() / 3600.0;
-        let dt_ms = dt.as_millis() as u64;
+        let dt_ms = #[allow(clippy::cast_possible_truncation)]
+        dt.as_millis() as u64;
         self.sim_time_ms += dt_ms;
 
         // Move along heading (simplified great-circle approximation)
@@ -89,7 +97,12 @@ impl SimulationProvider for SimpleDrone {
             position: (self.lat_deg, self.lon_deg, self.alt_m),
             velocity: Some(self.speed_kph),
             heading: Some(self.heading_deg),
-            status: if self.fuel_pct > 0.0 { "alive" } else { "disabled" }.into(),
+            status: if self.fuel_pct > 0.0 {
+                "alive"
+            } else {
+                "disabled"
+            }
+            .into(),
         })
     }
 
@@ -107,7 +120,7 @@ mod tests {
     fn test_init_sets_entity_id() {
         let scenario = Scenario {
             id: "test".into(),
-            name: "".into(),
+            name: String::new(),
             duration_secs: 3600,
             order_of_battle: serde_json::Value::Null,
             timeline: vec![],
@@ -128,9 +141,14 @@ mod tests {
 
     #[test]
     fn test_fuel_critical_event() {
-        let mut sim = SimpleDrone { fuel_pct: 5.0, ..Default::default() };
+        let mut sim = SimpleDrone {
+            fuel_pct: 5.0,
+            ..Default::default()
+        };
         let events = sim.tick(Duration::from_secs(1));
-        assert!(events.iter().any(|e| e.event_type == "logistics.fuel_critical"));
+        assert!(events
+            .iter()
+            .any(|e| e.event_type == "logistics.fuel_critical"));
     }
 
     #[test]

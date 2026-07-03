@@ -9,11 +9,18 @@ use furia_plugin_example::SimpleDrone;
 
 fn main() {
     let platform = FuriaBuilder::new()
-        .with_provider("simulation", "simple-drone", Box::new(SimpleDrone::default()))
+        .with_provider(
+            "simulation",
+            "simple-drone",
+            Box::new(SimpleDrone::default()),
+        )
         .without_builtins()
         .build();
 
-    println!("Furia platform built with {} providers", platform.provider_list().len());
+    println!(
+        "Furia platform built with {} providers",
+        platform.provider_list().len()
+    );
     for (kind, name) in platform.provider_list() {
         println!("  Provider: {}/{}", kind, name);
     }

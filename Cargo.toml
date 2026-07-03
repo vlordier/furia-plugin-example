@@ -9,7 +9,5 @@ description = "Example: a minimal third-party C2 module implementing SimulationP
 [dependencies]
 furia-sdk = { git = "https://github.com/vlordier/furia-core.git", tag = "v0.1.0" }
 furia-platform = { git = "https://github.com/vlordier/furia-core.git", tag = "v0.1.0" }
-serde = { version = "1.0", features = ["derive"] }
 tracing = "0.1"
-serde_json = "1.0"
 uuid = { version = "1.0", features = ["v4"] }
