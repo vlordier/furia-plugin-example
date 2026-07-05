@@ -35,7 +35,9 @@ furia-plugin-example = { git = "https://github.com/vlordier/furia-plugin-example
 Then register in `furia_host.rs`:
 
 ```rust
-builder = builder.with_provider("simulation", "simple-drone", Box::new(SimpleDrone::new()));
+builder = builder.with_provider("simulation", "simple-drone", Box::new(SimpleDrone::default()));
 ```
 
 See also: [furia-sdk-examples](https://github.com/vlordier/furia-sdk-examples) (18 example crates), [furia-core](https://github.com/vlordier/furia-core) (SDK traits).
+
+The same registration pattern works for the 23 public provider/adapter traits exported by `furia-sdk` v0.1.0.
