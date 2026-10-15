@@ -1,0 +1,43 @@
+{
+  "schema": "furia.hydris.plugin-manifest.v1",
+  "id": "furia-plugin-example",
+  "name": "furia-plugin-example",
+  "version": "0.0.0-unverified",
+  "kind": "capability-provider",
+  "capabilities": [],
+  "provides": [],
+  "platforms": [],
+  "ui_surface": {
+    "kind": "none",
+    "routes": []
+  },
+  "publisher": "unverified-legacy-publisher",
+  "sdk_version": "unverified-legacy-sdk",
+  "checksum_sha256": null,
+  "signature_ed25519": null,
+  "security": {
+    "sandbox": false,
+    "observation_only": true
+  },
+  "dependencies": [],
+  "provenance": {
+    "source_repository": "furia-plugin-example",
+    "source_manifest": null,
+    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normalization": "migration-stub-only-no-behavior-change"
+  },
+  "admission": {
+    "status": "blocked",
+    "missing": [
+      "id",
+      "manifest",
+      "publisher",
+      "sdk_version",
+      "checksum_sha256",
+      "dependencies",
+      "ui_surface.routes",
+      "security.sandbox"
+    ],
+    "equivalence_claim": false
+  }
+}
