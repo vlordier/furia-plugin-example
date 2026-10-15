@@ -62,8 +62,8 @@ impl SimulationProvider for SimpleDrone {
 
     fn tick(&mut self, dt: Duration) -> Vec<SimEvent> {
         let dt_hours = dt.as_secs_f64() / 3600.0;
-        let dt_ms = dt.as_millis() as u64;
-        self.sim_time_ms += dt_ms;
+        let elapsed_ms = u64::try_from(dt.as_millis()).unwrap_or(u64::MAX);
+        self.sim_time_ms = self.sim_time_ms.saturating_add(elapsed_ms);
 
         // Move along heading (simplified great-circle approximation)
         let dist_km = self.speed_kph * dt_hours;
@@ -154,5 +154,18 @@ mod tests {
     fn test_unknown_entity_returns_none() {
         let sim = SimpleDrone::default();
         assert!(sim.entity_state("no-such-drone").is_none());
+    }
+
+    #[test]
+    fn long_ticks_saturate_simulation_time_instead_of_wrapping() {
+        let mut sim = SimpleDrone {
+            sim_time_ms: 1,
+            ..SimpleDrone::default()
+        };
+
+        let events = sim.tick(Duration::from_millis(u64::MAX));
+
+        assert_eq!(sim.sim_time_ms, u64::MAX);
+        assert!(events.iter().all(|event| event.timestamp_ms == u64::MAX));
     }
 }
