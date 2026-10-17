@@ -7,6 +7,7 @@
   "capabilities": [],
   "provides": [],
   "platforms": [],
+  "protocol_versions": [],
   "ui_surface": {
     "kind": "none",
     "routes": []
@@ -23,17 +24,21 @@
   "provenance": {
     "source_repository": "furia-plugin-example",
     "source_manifest": null,
-    "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_manifest_id": null,
+    "source_sha256": null,
     "normalization": "migration-stub-only-no-behavior-change"
   },
   "admission": {
     "status": "blocked",
     "missing": [
-      "id",
       "manifest",
+      "capabilities",
+      "platforms",
+      "protocol_versions",
       "publisher",
       "sdk_version",
       "checksum_sha256",
+      "signature_ed25519",
       "dependencies",
       "ui_surface.routes",
       "security.sandbox"
