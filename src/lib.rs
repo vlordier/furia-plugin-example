@@ -4,7 +4,6 @@
 //! and registers it. The same pattern works for all 18 SDK traits.
 
 use std::time::Duration;
-use uuid::Uuid;
 
 use furia_sdk::module_handle::{ModuleHandle, ModuleHealth};
 use furia_sdk::simulation::{EntityState, Scenario, SimEvent, SimulationProvider};
@@ -23,8 +22,6 @@ pub struct SimpleDrone {
     fuel_pct: f64,
     /// Accumulated simulation time in milliseconds (deterministic — no wall clock).
     sim_time_ms: u64,
-    /// Module ID from the handle received at init (for lifecycle awareness).
-    module_id: Option<Uuid>,
 }
 
 impl Default for SimpleDrone {
@@ -38,7 +35,6 @@ impl Default for SimpleDrone {
             heading_deg: 45.0,
             fuel_pct: 100.0,
             sim_time_ms: 0,
-            module_id: None,
         }
     }
 }
@@ -53,7 +49,6 @@ impl SimulationProvider for SimpleDrone {
         {
             self.entity_id = id.to_string();
         }
-        self.module_id = Some(handle.module_id);
         tracing::info!(
             "[SimpleDrone] Simulation provider initialized (module_id={})",
             handle.module_id
